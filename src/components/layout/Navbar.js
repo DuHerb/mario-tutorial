@@ -11,7 +11,7 @@ const Navbar = () => {
                 <SignedInLinks/>
                 <SignedOutLinks/>
             </div>
-        </nav>      
+        </nav>
     )
 }
 
