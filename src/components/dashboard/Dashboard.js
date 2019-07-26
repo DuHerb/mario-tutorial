@@ -27,7 +27,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
         projects: state.firestore.ordered.projects,
         auth: state.firebase.auth,
@@ -38,7 +38,7 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-        { collection: 'projects'},
-        { collection: 'notifications', limit: 3}
+        { collection: 'projects', orderBy: ['createdAt', 'desc']},
+        { collection: 'notifications', limit: 3, orderBy: ['time', 'desc']}
     ])
 )(Dashboard)
