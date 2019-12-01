@@ -2,24 +2,31 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { signIn } from '../../store/actions/authActions'
 import { Redirect } from 'react-router-dom'
-import useForm from "react-hook-form"
+import { useFormik } from "formik"
 
 const SignIn = ({ signIn, authError, auth }) => {
-  const { register, handleSubmit } = useForm()
-  const onSubmit = data => signIn(data)
 
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    onSubmit: data => {
+      signIn(data)
+    }
+  })
   if(auth.uid) return <Redirect to='/'/>
   return (
     <div className='container'>
-      <form onSubmit={handleSubmit(onSubmit)} className='white'>
+      <form onSubmit={formik.handleSubmit} className='white'>
         <h5 className='grey-text text-darken-3'>Sign In</h5>
         <div className='input-field'>
           <label htmlFor='email'>Email</label>
-          <input type='email' id='email' name="email" ref={register({required: true})}/>
+          <input type='email' id='email' name="email" onChange={formik.handleChange} value={formik.values.email} />
         </div>
         <div className='input-field'>
           <label htmlFor='password'>Password</label>
-          <input type='password' id='password' name="password" ref={register({required: true})}/>
+          <input type='password' id='password' name="password" onChange={formik.handleChange} value={formik.values.password}/>
         </div>
         <div className='input-field'>
           <button className='btn pink lighten-1 z-depth-0'>Login</button>
